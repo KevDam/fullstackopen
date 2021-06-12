@@ -9,11 +9,35 @@ const Button = ({handler, text}) => {
   )
 }
 
-const Statistics = ({text, count}) => {
+const Statistic = ({text, value}) => {
   return (
-    <div>
-      {text}: {count}
-    </div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
+const Statistics = ({stats}) => {
+  if (stats.numFeedback === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
+
+  return (
+    <table>
+      <tbody>
+        <Statistic text='Good' value={stats.good} />
+        <Statistic text='Neutral' value={stats.neutral} />
+        <Statistic text='Bad' value={stats.bad} />
+        <Statistic text='All' value={stats.numFeedback} />
+        <Statistic text='Average' value={stats.avgFeedback} />
+        <Statistic text='Positive' value={stats.posPercent} />
+      </tbody>
+    </table>
   )
 }
 
@@ -27,33 +51,20 @@ const App = () => {
   const incrementNeutral = () => setNeutral(neutral + 1)
   const incrementBad = () => setBad(bad + 1)
 
-  const allFeedback = () => good + neutral + bad
-  const averageFeedback = () => {
-    return ((good - bad) / allFeedback())
-  }
+  let allFeedback = good + neutral + bad
+  let averageFeedback = (good - bad) / allFeedback
   const positivePercentage = () => {
-    let percent = (good / allFeedback()) * 100
+    let percent = (good / allFeedback) * 100
     return percent.toString() + '%'
   }
 
-  if (allFeedback() === 0) {
-    return (
-      <div>
-      <div><h1>Give feedback!</h1></div>
-      <div>
-        <Button handler={incrementGood} text='Good' />
-        <Button handler={incrementNeutral} text='Neutral' />
-        <Button handler={incrementBad} text='Bad' />
-      </div>
-
-      <div>
-        <h1>Statistics</h1>
-      </div>
-      <div>
-        No feedback given.
-      </div>
-      </div>
-    )
+  let stats = {
+    'good': good,
+    'neutral': neutral,
+    'bad': bad,
+    'numFeedback': allFeedback,
+    'avgFeedback': averageFeedback,
+    'posPercent': positivePercentage()
   }
 
   return (
@@ -68,13 +79,9 @@ const App = () => {
       <div>
         <h1>Statistics</h1>
       </div>
+
       <div>
-        <Statistics text='Good' count={good} />
-        <Statistics text='Neutral' count={neutral} />
-        <Statistics text='Bad' count={bad} />
-        <Statistics text='All' count={allFeedback()} />
-        <Statistics text='Average' count={averageFeedback()} />
-        <Statistics text='Positive' count={positivePercentage()} />
+        <Statistics stats={stats} />
       </div>
     </div>
   )
