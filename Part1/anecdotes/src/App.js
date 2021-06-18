@@ -31,6 +31,7 @@ const App = () => {
     setPoints(pointsCopy)
   }
 
+
   let mostVoted = anecdotes[pointsCopy.indexOf(Math.max(...pointsCopy))]
 
 
@@ -56,4 +57,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
