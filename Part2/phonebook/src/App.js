@@ -90,11 +90,24 @@ const Filter = ({value, onChange}) => {
   )
 }
 
+const Notification = ({message}) => {
+  if (message === '' || message === null) {
+    return null
+  } else {
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+}
+
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNum, setNewNum ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ newError, setnewError ] = useState('')
   // const [ newCountryFilter, setNewCountryFilter ] = useState('')
   // const [ countries, setCountries ] = useState([])
   // const [ weather, setWeather ] = useState({
@@ -163,7 +176,8 @@ const App = () => {
     e.preventDefault()
 
     if (persons.find(person => (person.name === newName && person.number === newNum))) {
-      window.alert(`${newName} is already added to the phonebook`)
+      // window.alert(`${newName} is already added to the phonebook`)
+      setnewError(`${newName} is already added to the phonebook`)
     } else if (persons.find(person => person.name === newName)) {
       let selectedPerson = persons.find(person => person.name === newName)
 
@@ -206,6 +220,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={newError} />
       <h2>Add New Entry</h2>
       <form>
         <div>
