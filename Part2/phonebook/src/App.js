@@ -165,7 +165,7 @@ const App = () => {
       </form>
       <Filter value={newFilter} onChange={handleFilterChange} />
       <h2>Numbers</h2>
-      <PersonList persons={persons} filter={newFilter} handleDeletePerson={handleDeletePerson}/>∂
+      <PersonList persons={persons} filter={newFilter} handleDeletePerson={handleDeletePerson}/>
     </div>
   )
 }
