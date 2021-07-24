@@ -63,7 +63,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNum, setNewNum ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
-  const [ newError, setnewError ] = useState('')
+  const [ newError, setNewError ] = useState('')
 
   const personsHook = () => {
     personService.getAll().then(response => {
@@ -91,6 +91,9 @@ const App = () => {
       .then(response => {
         let newPersons = persons.filter(p => p.id !== id)
         setPersons(newPersons)
+      }).catch(error => {
+        console.log(error.response.data)
+        setNewError(error.message)
       })
 
   }
@@ -99,7 +102,7 @@ const App = () => {
     e.preventDefault()
 
     if (persons.find(person => (person.name === newName && person.number === newNum))) {
-      setnewError(`${newName} is already added to the phonebook`)
+      setNewError(`${newName} is already added to the phonebook`)
     } else if (persons.find(person => person.name === newName)) {
       let selectedPerson = persons.find(person => person.name === newName)
 
@@ -119,6 +122,9 @@ const App = () => {
           .update(updatedPerson.id, updatedPerson)
           .then(response => {
             console.log(response)
+          }).catch(error => {
+            console.log(error.response.data)
+            setNewError(error.message)
           })
       }
     } else {
@@ -135,6 +141,9 @@ const App = () => {
         .create(personObj)
         .then(response => {
           console.log(response)
+        }).catch(error => {
+          console.log(error.response.data)
+          setNewError(error.message)
         })
     }
   }
