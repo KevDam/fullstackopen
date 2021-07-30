@@ -7,6 +7,20 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 const initialBlogs = testHelper.listWithManyBlogs
+let token = {}
+jest.setTimeout(15000)
+
+// beforeAll(async () => {
+//     const login = {
+//         username: 'root',
+//         password: 'sekret'
+//     }
+
+//     const response = await api.post('/api/login').send(login)
+//     console.log(response)
+//     token = response.token
+//     console.log(token)
+// })
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -41,14 +55,16 @@ describe('API get tests', () => {
 
 describe('API post tests', () => {
     test('new blog posts are successfully created', async () => {
+
         const newBlog = {
             title: 'The Big Bruh',
             author: 'Kevin Dam',
             url: 'http://thebigbruh.com/',
-            likes: 69
+            likes: 69,
+            user: "111111111111111111111111"
         }
 
-        await api.post('/api/blogs').send(newBlog)
+        await api.post('/api/blogs').set('Authorization', 'bearer ' + token).send(newBlog)
 
         const response = await api.get('/api/blogs')
 
@@ -56,10 +72,12 @@ describe('API post tests', () => {
     }, 10000)
 
     test('blog posts created without \'likes\' parameter default to 0 likes', async () => {
+
         const newBlogNoLikes = {
             title: 'The Big Bruh',
             author: 'Kevin Dam',
-            url: 'http://thebigbruh.com'
+            url: 'http://thebigbruh.com',
+            user: "111111111111111111111111"
         }
 
         const response = await api.post('/api/blogs').send(newBlogNoLikes)

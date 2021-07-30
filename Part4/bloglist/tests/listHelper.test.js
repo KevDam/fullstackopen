@@ -28,6 +28,7 @@ describe('favorite blog', () => {
             author: "Edsger W. Dijkstra",
             url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
             likes: 12,
+            user: "111111111111111111111111",
             __v: 0
           }
 
